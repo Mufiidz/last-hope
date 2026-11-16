@@ -1,0 +1,45 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ztories (dev)",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor", "dev",
+                "--dart-define-from-file=env/dev.json",
+                "--verbose"
+            ]
+        },
+        {
+            "name": "ztories (dev, profile)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor", "dev",
+                "--dart-define-from-file=env/dev.json",
+                "--verbose"
+            ]
+        },
+        {
+            "name": "ztories (prod)",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor", "prod",
+                "--dart-define-from-file=env/prod.json"
+            ]
+        },
+        {
+            "name": "ztories (prod, release)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--flavor", "prod",
+                "--dart-define-from-file=env/prod.json"
+            ]
+        }
+    ]
+}
