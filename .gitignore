@@ -50,3 +50,6 @@ app.*.map.json
 # Env related
 /env/dev.json
 /env/prod.json
+
+# Generator related
+/lib/**/*.*.dart
