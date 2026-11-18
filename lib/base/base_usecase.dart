@@ -1,9 +1,14 @@
+import 'package:flutter/foundation.dart';
+
 import '../utils/export_utils.dart';
 import 'base_exception.dart';
 import 'result.dart';
 
-abstract class BaseUsecase<T, Param> {
+abstract class BaseUseCase<T, Param> {
+  @protected
   Future<T> execute(Param param);
+
+  Future<Result<T>> call(Param param) => safeExecute(param);
 
   Future<Result<T>> safeExecute(Param param) async {
     try {

@@ -19,6 +19,7 @@ class NetworkInterceptor extends Interceptor {
       DioExceptionType.receiveTimeout => NetworkException(
         'Server terlalu lama merespons',
       ),
+      // TODO: maybe better to showing bottom sheet internet error
       DioExceptionType.connectionError => NetworkException(
         'Tidak ada koneksi internet',
       ),
