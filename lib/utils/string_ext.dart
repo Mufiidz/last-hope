@@ -8,4 +8,9 @@ extension StringExt on String? {
     final value = this;
     return value == null || value.isEmpty;
   }
+
+  bool isNotBlank() {
+    final value = this?.trim();
+    return value != null && value.isNotEmpty;
+  }
 }

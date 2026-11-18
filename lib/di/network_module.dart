@@ -6,12 +6,19 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../data/network/auth_apiclient.dart';
+import '../network/network_interceptor.dart';
 import '../network/session_interceptor.dart';
 
 @module
 abstract class NetworkModule {
+  @singleton
+  List<Interceptor> provideInterceptors(
+    SessionInterceptor sessionInterceptor,
+    NetworkInterceptor networkInterceptor,
+  ) => [sessionInterceptor, networkInterceptor];
+
   @lazySingleton
-  Dio provideDio(SessionInterceptor sessionInterceptor) {
+  Dio provideDio(List<Interceptor> interceptors) {
     final BaseOptions options = BaseOptions(
       connectTimeout: const Duration(seconds: 15),
       sendTimeout: const Duration(seconds: 30),
@@ -23,7 +30,7 @@ abstract class NetworkModule {
 
     final Dio dio = Dio(options);
 
-    dio.interceptors.add(sessionInterceptor);
+    dio.interceptors.addAll(interceptors);
 
     if (kReleaseMode) return dio;
 

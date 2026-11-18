@@ -1,35 +1,37 @@
-import 'package:dart_mappable/dart_mappable.dart';
-
-part 'result.mapper.dart';
+import 'base_exception.dart';
 
 sealed class Result<T> {
   const Result();
 
-  /// Creates a successful [Result], completed with the specified [value].
-  const factory Result.success(T value) = Success._;
+  const factory Result.success(T value) = _Success._;
 
-  /// Creates an error [Result], completed with the specified [error].
-  const factory Result.error(Exception error) = Error._;
+  const factory Result.error(BaseException error) = _Error._;
+
+  R when<R>({
+    required R Function(T value) success,
+    required R Function(BaseException error) error,
+  }) {
+    return switch (this) {
+      _Success(value: final v) => success(v),
+      _Error(error: final e) => error(e),
+    };
+  }
 }
 
-/// A successful [Result] with a returned [value].
-@MappableClass(
-  generateMethods: GenerateMethods.equals | GenerateMethods.stringify,
-)
-class Success<T> extends Result<T> with SuccessMappable {
-  const Success._(this.value);
-
-  /// The returned value of this result.
+class _Success<T> extends Result<T> {
   final T value;
+
+  const _Success._(this.value);
+
+  @override
+  String toString() => 'Result.Success($value)';
 }
 
-/// An error [Result] with a resulting [error].
-@MappableClass(
-  generateMethods: GenerateMethods.equals | GenerateMethods.stringify,
-)
-class Error<T> extends Result<T> with ErrorMappable {
-  const Error._(this.error);
+class _Error<T> extends Result<T> {
+  final BaseException error;
 
-  /// The resulting error of this result.
-  final Exception error;
+  const _Error._(this.error);
+
+  @override
+  String toString() => 'Result.Error($error)';
 }

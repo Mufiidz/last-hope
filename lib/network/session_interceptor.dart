@@ -21,6 +21,7 @@ class SessionInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    // TODO: get from auth repository to getAccessToken()
     final String? accessToken = await _secureStorage.getString(
       GeneralStorageKey.accessToken,
     );
