@@ -3,29 +3,25 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:material_ui/material_ui.dart';
 
-import '../data/storage/key_storage.dart';
-import '../data/storage/secure_storage.dart';
 import '../model/error_bottomsheet_data.dart';
 import '../routes/app_router.dart';
 import '../routes/app_router.gr.dart';
 import '../utils/context_ext.dart';
+import 'token/token_storage.dart';
 
 @singleton
 class SessionInterceptor extends Interceptor {
-  final SecureStorage _secureStorage;
+  final TokenStorage _tokenStorage;
 
-  SessionInterceptor(this._secureStorage);
+  SessionInterceptor(this._tokenStorage);
 
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    // TODO: get from auth repository to getAccessToken()
-    final String? accessToken = await _secureStorage.getString(
-      GeneralStorageKey.accessToken,
-    );
-    if (accessToken != null && accessToken.isNotEmpty) {
+    final String accessToken = await _tokenStorage.getAccessToken();
+    if (accessToken.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
     handler.next(options);
@@ -42,7 +38,7 @@ class SessionInterceptor extends Interceptor {
   }
 
   void _triggerSessionExpired() async {
-    await _secureStorage.remove(GeneralStorageKey.accessToken);
+    await _tokenStorage.removeAccessToken();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showSessionBottomSheet();
@@ -53,6 +49,11 @@ class SessionInterceptor extends Interceptor {
     final context = appNavigatorKey.currentContext;
     if (context == null) return;
 
+    void navigateToLogin() {
+      context.router.pop();
+      context.router.replaceAll([const LoginRoute()]);
+    }
+
     context.showErrorBottomSheet(
       data: ErrorBottomSheetData(
         title: 'Sesi Berakhir',
@@ -61,15 +62,10 @@ class SessionInterceptor extends Interceptor {
         iconColor: Colors.orange,
         primaryButton: BottomSheetAction(
           text: 'Login',
-          onPressed: () {
-            context.router.pop();
-            context.router.replaceAll([const LoginRoute()]);
-          },
+          onPressed: navigateToLogin,
         ),
       ),
-      onDismiss: () {
-        context.router.pop();
-      },
+      onDismiss: navigateToLogin,
     );
   }
 }
