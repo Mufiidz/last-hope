@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../data/network/auth_apiclient.dart';
+import '../data/network/endpoint.dart';
 import '../network/network_interceptor.dart';
 import '../network/session_interceptor.dart';
 
@@ -46,5 +47,6 @@ abstract class NetworkModule {
   }
 
   @singleton
-  AuthApiClient provideAuthApiClient(Dio dio) => AuthApiClient(dio);
+  AuthApiClient provideAuthApiClient(Dio dio) =>
+      AuthApiClient(dio, baseUrl: Endpoint.authUrl);
 }

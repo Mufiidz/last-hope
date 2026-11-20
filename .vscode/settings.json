@@ -14,5 +14,13 @@
     "**/.idea": true,
     "**/*.iml": true,
     "**/.flutter-plugins-dependencies": true
+  },
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "pubspec.yaml": ".flutter-plugins, .packages, .dart_tool, .flutter-plugins-dependencies, .metadata, .packages, pubspec.lock, build.yml, analysis_options.yaml, all_lint_rules.yaml, devtools_options.yaml",
+    "*.dart": "$(capture).g.dart, $(capture).freezed.dart, $(capture).mapper.dart, $(capture).config.dart, $(capture).steps.dart, $(capture).init.dart, $(capture).module.dart, $(capture).gr.dart",
+    ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .mailmap, .git-blame*",
+    "readme.*": "authors, backers.md, changelog*, citation*, code_of_conduct.md, codeowners, contributing.md, contributors, copying, credits, governance.md, history.md, license*, maintainers, readme*, security.md, sponsors.md"
   }
 }

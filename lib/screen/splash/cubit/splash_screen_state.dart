@@ -1,9 +1,17 @@
 part of 'splash_screen_cubit.dart';
 
 @MappableClass()
-class SplashScreenState with SplashScreenStateMappable {
-  final bool isLoading;
-  final bool? isAuthenticated;
+class SplashScreenState extends BaseState with SplashScreenStateMappable {
+  SplashScreenState();
+}
 
-  new({this.isLoading = true, this.isAuthenticated});
+sealed class SplashScreenEffect implements BaseEffect {
+  const SplashScreenEffect();
+
+  factory SplashScreenEffect.navigate(String route) => NavigateScreen(route);
+}
+
+class NavigateScreen extends SplashScreenEffect {
+  final String route;
+  const NavigateScreen(this.route);
 }

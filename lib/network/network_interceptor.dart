@@ -54,7 +54,12 @@ class NetworkInterceptor extends Interceptor {
     }
 
     return switch (statusCode) {
-      400 => BadRequestException(errorResponse),
+      400 => () {
+        if (errorResponse.data.isNotEmpty) {
+          return BadRequestException(errorResponse);
+        }
+        return NetworkException(errorResponse.message);
+      }(),
       403 => () {
         AppLogger.error(
           'Forbidden: ${errorResponse.message}',

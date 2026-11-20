@@ -9,29 +9,36 @@ class FormWidget extends StatelessWidget {
   final MainAxisSize mainAxisSize;
   final CrossAxisAlignment crossAxisAlignment;
   final List<Widget> children;
+  final EdgeInsetsGeometry? padding;
 
   const FormWidget(
     this.formKey, {
     required this.children,
+    super.key,
     this.spacing = 0,
     this.autovalidateMode,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.max,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-  }) : super(key: formKey);
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
     return FormBuilder(
       key: formKey,
       autovalidateMode: autovalidateMode,
-      child: Column(
-        mainAxisAlignment: mainAxisAlignment,
-        mainAxisSize: mainAxisSize,
-        crossAxisAlignment: crossAxisAlignment,
-        spacing: 0,
-        children: [],
-      ),
+      child: padding != null
+          ? Padding(padding: padding ?? EdgeInsets.zero, child: _forms)
+          : _forms,
     );
   }
+
+  Column get _forms => Column(
+    mainAxisAlignment: mainAxisAlignment,
+    mainAxisSize: mainAxisSize,
+    crossAxisAlignment: crossAxisAlignment,
+    spacing: spacing,
+    children: children,
+  );
 }

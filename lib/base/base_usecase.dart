@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../utils/export_utils.dart';
@@ -14,6 +15,14 @@ abstract class BaseUseCase<T, Param> {
     try {
       final result = await execute(param);
       return Result.success(result);
+    } on DioException catch (e) {
+      final error = e.error;
+      if (error is BaseException) {
+        return Result.error(error);
+      }
+      return Result.error(
+        NetworkException(e.message.orDefault('Terjadi Kesalahan')),
+      );
     } on BaseException catch (e) {
       return Result.error(e);
     } catch (e) {
