@@ -1,6 +1,6 @@
 import '../../widgets/textfield_widget.dart';
 
-enum LoginField implements FieldKey {
+enum LoginField implements FormField {
   identity,
   password;
 

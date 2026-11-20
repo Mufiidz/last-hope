@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+
 import 'utils/context_ext.dart';
 
 class MaterialTheme {
@@ -344,6 +345,9 @@ class MaterialTheme {
       textTheme: textTheme.apply(
         bodyColor: colorScheme.onSurface,
         displayColor: colorScheme.onSurface,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: Colors.grey.shade100,
       ),
       scaffoldBackgroundColor: colorScheme.surface,
       canvasColor: colorScheme.surface,

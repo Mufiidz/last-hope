@@ -54,42 +54,41 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Expanded(
-              child: Container(
-                color: Colors.amber,
-                child: FormWidget(
-                  _formKey,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: context.mediaSize.height * 0.05,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  children: [
-                    TextFieldWidget(
-                      LoginField.identity,
-                      validators: [FormBuilderValidators.required()],
-                    ),
-                    TextFieldWidget(
-                      LoginField.password,
-                      obscureText: _hidePassword,
-                      obscuringCharacter: '*',
-                      suffixIcon: IconButton(
-                        onPressed: () => setState(() {
-                          _hidePassword = !_hidePassword;
-                        }),
-                        icon: Icon(
-                          _hidePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
+              child: FormWidget(
+                _formKey,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: context.mediaSize.height * 0.05,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  TextFieldWidget(
+                    LoginField.identity,
+                    hint: 'Username',
+                    filled: true,
+                    validators: [FormBuilderValidators.required()],
+                  ),
+                  TextFieldWidget(
+                    LoginField.password,
+                    hint: 'Password',
+                    obscureText: _hidePassword,
+                    obscuringCharacter: '*',
+                    filled: true,
+                    suffixIcon: IconButton(
+                      onPressed: () => setState(() {
+                        _hidePassword = !_hidePassword;
+                      }),
+                      icon: Icon(
+                        _hidePassword ? Icons.visibility : Icons.visibility_off,
                       ),
-                      validators: [FormBuilderValidators.required()],
                     ),
-                    Button.adaptive(
-                      text: 'Login',
-                      onPressed: _onSubmit,
-                      width: context.mediaSize.width,
-                    ),
-                  ],
-                ),
+                    validators: [FormBuilderValidators.required()],
+                  ),
+                  Button.adaptive(
+                    text: 'Login',
+                    onPressed: _onSubmit,
+                    width: context.mediaSize.width,
+                  ),
+                ],
               ),
             ),
           ],
