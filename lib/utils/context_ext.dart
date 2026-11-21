@@ -47,4 +47,6 @@ extension ContextExt on BuildContext {
     isDismissible: isDismissible,
   );
   NavigatorState get navigationState => Navigator.of(this);
+  Brightness get brightness => theme.brightness;
+  bool get isDark => brightness == Brightness.dark;
 }
