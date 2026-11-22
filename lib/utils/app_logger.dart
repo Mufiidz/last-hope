@@ -1,7 +1,5 @@
 import 'package:logger/logger.dart';
 
-import 'string_ext.dart';
-
 class AppLogger {
   static final Logger _logger = Logger(
     printer: PrettyPrinter(
@@ -17,26 +15,31 @@ class AppLogger {
 
   /// Log dengan Tag dan Level DEBUG
   static void debug(dynamic message, {String? tag}) {
-    _logger.d(tag.isNullOrEmpty() ? message : '[$tag] $message');
+    _logger.d(message, error: tag);
   }
 
   /// Log dengan Tag dan Level INFO
   static void info(dynamic message, {String? tag}) {
-    _logger.i(tag.isNullOrEmpty() ? message : '[$tag] $message');
+    _logger.i(message, error: tag);
   }
 
   /// Log dengan Tag dan Level WARNING
   static void warn(dynamic message, {String? tag}) {
-    _logger.w(tag.isNullOrEmpty() ? message : '[$tag] $message');
+    _logger.w(message, error: tag);
   }
 
   /// Log dengan Tag dan Level ERROR
   static void error(
-    dynamic message, [
+    dynamic message, {
     String? tag,
     dynamic error,
     StackTrace? stackTrace,
-  ]) {
-    _logger.e(tag.isNullOrEmpty() ? message : '[$tag] $message', error: error, stackTrace: stackTrace);
+  }) {
+    final newMessage =
+        '''$message
+    \n
+    error: $error
+    ''';
+    _logger.e(newMessage, error: tag, stackTrace: stackTrace);
   }
 }

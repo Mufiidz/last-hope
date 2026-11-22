@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../di/injection.dart';
 import '../../model/request/login_request.dart';
 import '../../utils/export_utils.dart';
+import '../../widgets/snackbar_widget.dart';
 import '../../widgets/widgets_export.dart';
 import 'cubit/login_cubit.dart';
 import 'login_field.dart';
@@ -34,52 +35,74 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocEffect.listener(
-        _loginCubit,
-        listenWhen: (previous, current) =>
-            previous.statusState != current.statusState,
-        listener: (context, state) {
-          _loadingDialog.show(context, state.isLoading);
-        },
-        sideEffect: (context, effect) => switch (effect) {
-          ShowFieldErrors(:final errors) => _showErrorField(errors),
-          ShowSnackBar() => throw UnimplementedError(),
-          NavigateToHome() => throw UnimplementedError(),
-        },
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: Text('Ztories', style: context.textTheme.displayMedium),
+      body: SafeArea(
+        child: BlocEffect.listener(
+          _loginCubit,
+          listenWhen: (previous, current) =>
+              previous.statusState != current.statusState,
+          listener: (context, state) {
+            _loadingDialog.show(context, state.isLoading);
+          },
+          sideEffect: (ctx, effect) => switch (effect) {
+            ShowFieldErrors(:final errors) => _showErrorField(errors),
+            ShowSnackBar(:final message) => context.showSnackBar(
+              SnackBarWidget.byState(
+                context,
+                message: message,
+                state: SnackBarState.error,
               ),
             ),
-            Expanded(
-              child: FormWidget(
+            // TODO: Handle navigate to Home Route
+            NavigateToHome() => (),
+            ShowErrorBottomSheet(:final data) => context.showErrorBottomSheet(
+              data: data.copyWith(
+                primaryButton: data.primaryButton.copyWith(
+                  onPressed: () {
+                    context.router.pop();
+                  },
+                ),
+              ),
+            ),
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 32,
+            children: [
+              Center(
+                child: Text('Ztories', style: context.textTheme.displayMedium),
+              ),
+              FormWidget(
                 _formKey,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: context.mediaSize.height * 0.05,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  TextFieldWidget(
+                  TextFieldWidget.focusBorder(
                     LoginField.identity,
+                    context,
                     hint: 'Username',
                     filled: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    textInputAction: TextInputAction.next,
                     validators: [FormBuilderValidators.required()],
                   ),
-                  TextFieldWidget(
+                  TextFieldWidget.focusBorder(
                     LoginField.password,
+                    context,
                     hint: 'Password',
                     obscureText: _hidePassword,
                     obscuringCharacter: '*',
                     filled: true,
-                    suffixIcon: IconButton(
+                    textInputAction: TextInputAction.go,
+                    onSubmitted: (value) => _onSubmit(),
+                    suffixIcon: IconButtonWidget(
                       onPressed: () => setState(() {
                         _hidePassword = !_hidePassword;
                       }),
-                      icon: Icon(
-                        _hidePassword ? Icons.visibility : Icons.visibility_off,
-                      ),
+                      iconData: _hidePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     validators: [FormBuilderValidators.required()],
                   ),
@@ -90,8 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

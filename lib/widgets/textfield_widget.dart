@@ -10,7 +10,6 @@ abstract interface class FormField {
   String get key;
 }
 
-// TODO: Fix the styling (no Border, border, no Border & border)
 class TextFieldWidget extends FormBuilderTextField {
   final FormField formField;
   final String? label;
@@ -44,6 +43,8 @@ class TextFieldWidget extends FormBuilderTextField {
       vertical: 16,
       horizontal: 8,
     ),
+    super.forceErrorText,
+    super.onSubmitted,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(
@@ -87,6 +88,8 @@ class TextFieldWidget extends FormBuilderTextField {
       horizontal: 8,
     ),
     InputBorder? enabledBorder,
+    super.forceErrorText,
+    super.onSubmitted,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(
@@ -163,6 +166,7 @@ class TextFieldWidget extends FormBuilderTextField {
     ),
     InputBorder? enabledBorder,
     super.forceErrorText,
+    super.onSubmitted,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(

@@ -3,33 +3,44 @@ import 'package:injectable/injectable.dart';
 
 import '../base/base_exception.dart';
 import '../model/response/error_response.dart';
-import '../utils/app_logger.dart';
+import '../utils/export_utils.dart';
 
 @singleton
 class NetworkInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final newException = switch (err.type) {
-      DioExceptionType.connectionTimeout => NetworkException(
-        'Koneksi internet terputus',
-      ),
+      DioExceptionType.connectionTimeout => () {
+        AppLogger.error('connectionError', error: err);
+        return ConnectionErrorException(
+          title: 'Connection Timeout',
+          message: 'Koneksi internet terputus',
+          errorType: err.type,
+        );
+      }(),
       DioExceptionType.sendTimeout => NetworkException(
         'Gagal mengirim data ke server',
       ),
       DioExceptionType.receiveTimeout => NetworkException(
         'Server terlalu lama merespons',
       ),
-      // TODO: maybe better to showing bottom sheet internet error
-      DioExceptionType.connectionError => NetworkException(
-        'Tidak ada koneksi internet',
-      ),
+      DioExceptionType.connectionError => () {
+        // TODO: Handle this when get connection error or when cant connect to server
+        AppLogger.error('connectionError', error: err);
+        return ConnectionErrorException(
+          title: 'Connection Error',
+          message: 'Tidak ada koneksi internet',
+          errorType: err.type,
+        );
+      }(),
       DioExceptionType.badResponse => _handleBadResponse(err),
+
       _ => () {
         AppLogger.error(
           err.message ?? 'Unknown error',
-          'Network Interceptor',
-          err.error,
-          err.stackTrace,
+          tag: 'Network Interceptor',
+          error: err.error,
+          stackTrace: err.stackTrace,
         );
         return NetworkException(err.message ?? 'Unknown error');
       }(),
@@ -63,9 +74,9 @@ class NetworkInterceptor extends Interceptor {
       403 => () {
         AppLogger.error(
           'Forbidden: ${errorResponse.message}',
-          'Network Interceptor: Forbidden',
-          errorData,
-          err.stackTrace,
+          tag: 'Network Interceptor: Forbidden',
+          error: errorData,
+          stackTrace: err.stackTrace,
         );
         return NetworkException('Not Allowed');
       }(),
@@ -76,9 +87,9 @@ class NetworkInterceptor extends Interceptor {
       _ => () {
         AppLogger.error(
           'Error Bad Response ($statusCode)',
-          'Network Interceptor: Bad Response',
-          errorData,
-          err.stackTrace,
+          tag: 'Network Interceptor: Bad Response',
+          error: errorData,
+          stackTrace: err.stackTrace,
         );
         return NetworkException('Terjadi kesalahan');
       }(),

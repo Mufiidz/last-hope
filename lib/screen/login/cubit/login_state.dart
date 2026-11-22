@@ -9,6 +9,8 @@ sealed class LoginEffect implements BaseEffect {
   const LoginEffect();
 
   factory LoginEffect.showSnackBar(String message) = ShowSnackBar;
+  factory LoginEffect.showBottomSheet(ErrorBottomSheetData data) =
+      ShowErrorBottomSheet;
 
   factory LoginEffect.navigateToHome() = NavigateToHome;
 
@@ -26,6 +28,12 @@ class ShowSnackBar extends LoginEffect {
   final String message;
 
   ShowSnackBar(this.message);
+}
+
+class ShowErrorBottomSheet extends LoginEffect {
+  final ErrorBottomSheetData data;
+
+  ShowErrorBottomSheet(this.data);
 }
 
 class NavigateToHome extends LoginEffect {

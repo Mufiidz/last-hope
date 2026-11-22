@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       routerConfig: getIt<AppRouter>().config(),
       debugShowCheckedModeBanner: kDebugMode,
       theme: context.materialTheme.light(),
-      darkTheme: context.materialTheme.darkHighContrast(),
+      darkTheme: context.materialTheme.light(),
       localizationsDelegates: [FormBuilderLocalizations.delegate],
     );
   }
