@@ -5,7 +5,7 @@ import '../model/request/login_request.dart';
 import '../model/user.dart';
 import '../repository/auth_repository.dart';
 
-@singleton
+@lazySingleton
 class LoginUseCase extends BaseUseCase<User, LoginRequest> {
   final AuthRepository _authRepository;
 

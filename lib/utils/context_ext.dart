@@ -40,13 +40,17 @@ extension ContextExt on BuildContext {
     required ErrorBottomSheetData data,
     VoidCallback? onDismiss,
     bool isDismissible = true,
+    bool useRootNavigator = false,
   }) => ErrorBottomSheet.show(
     this,
     data: data,
     onDismiss: onDismiss,
     isDismissible: isDismissible,
+    useRootNavigator: useRootNavigator,
   );
   NavigatorState get navigationState => Navigator.of(this);
   Brightness get brightness => theme.brightness;
   bool get isDark => brightness == Brightness.dark;
+  void showSnackBar(SnackBar snackBar) =>
+      ScaffoldMessenger.of(this).showSnackBar(snackBar);
 }

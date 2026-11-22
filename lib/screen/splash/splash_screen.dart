@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../di/injection.dart';
 import '../../utils/export_utils.dart';
+import '../../widgets/bloc_effect.dart';
 import 'cubit/splash_screen_cubit.dart';
 
 @RoutePage()
@@ -13,15 +13,12 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<SplashScreenCubit, SplashScreenState>(
-        bloc: getIt<SplashScreenCubit>(),
-        listenWhen: (previous, current) => current.isAuthenticated != null,
-        listener: (context, state) {
-          // if (state.isAuthenticated == true) {
-          //   context.replaceRoute(const LoginRoute());
-          // } else {
-          //   context.replaceRoute(const LoginRoute());
-          // }
+      body: BlocEffect<SplashScreenState, SplashScreenEffect>(
+        getIt<SplashScreenCubit>(),
+        sideEffect: (context, effect) => switch (effect) {
+          NavigateScreen(:final route) => context.router.replace(
+            NamedRoute(route),
+          ),
         },
         child: SizedBox(
           width: context.mediaSize.width,

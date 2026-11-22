@@ -7,7 +7,6 @@ final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
-
   AppRouter() : super(navigatorKey: appNavigatorKey);
 
   @override
@@ -16,6 +15,6 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(page: SplashRoute.page, initial: true),
-    AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: LoginRoute.page, path: '/login'),
   ];
 }

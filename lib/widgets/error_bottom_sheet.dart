@@ -24,6 +24,7 @@ class ErrorBottomSheet extends StatelessWidget {
     required ErrorBottomSheetData data,
     VoidCallback? onDismiss,
     bool isDismissible = true,
+    bool useRootNavigator = false,
   }) {
     if (context.router.canPop()) {
       context.pop();
@@ -31,6 +32,7 @@ class ErrorBottomSheet extends StatelessWidget {
 
     showModalBottomSheet(
       context: context,
+      useRootNavigator: useRootNavigator,
       builder: (context) => ErrorBottomSheet._(
         title: data.title ?? 'Error',
         message: data.message ?? 'Something went wrong',

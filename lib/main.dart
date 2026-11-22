@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'di/injection.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       routerConfig: getIt<AppRouter>().config(),
       debugShowCheckedModeBanner: kDebugMode,
       theme: context.materialTheme.light(),
-      darkTheme: context.materialTheme.darkHighContrast(),
+      darkTheme: context.materialTheme.light(),
+      localizationsDelegates: [FormBuilderLocalizations.delegate],
     );
   }
 }

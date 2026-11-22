@@ -1,6 +1,13 @@
+import 'package:dart_mappable/dart_mappable.dart';
 import 'package:material_ui/material_ui.dart';
 
-class ErrorBottomSheetData {
+part 'error_bottomsheet_data.mapper.dart';
+
+@MappableClass(
+  generateMethods:
+      GenerateMethods.copy | GenerateMethods.stringify | GenerateMethods.equals,
+)
+class ErrorBottomSheetData with ErrorBottomSheetDataMappable {
   final String? title;
   final String? message;
   final IconData? icon;
@@ -18,7 +25,11 @@ class ErrorBottomSheetData {
   });
 }
 
-class BottomSheetAction {
+@MappableClass(
+  generateMethods:
+      GenerateMethods.copy | GenerateMethods.stringify | GenerateMethods.equals,
+)
+class BottomSheetAction with BottomSheetActionMappable {
   final String text;
   final VoidCallback? onPressed;
 
