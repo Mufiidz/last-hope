@@ -26,10 +26,6 @@ class ErrorBottomSheet extends StatelessWidget {
     bool isDismissible = true,
     bool useRootNavigator = false,
   }) {
-    if (context.router.canPop()) {
-      context.pop();
-    }
-
     showModalBottomSheet(
       context: context,
       useRootNavigator: useRootNavigator,
