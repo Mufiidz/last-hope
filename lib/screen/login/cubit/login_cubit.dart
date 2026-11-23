@@ -1,5 +1,4 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../base/base_export.dart';
@@ -20,7 +19,7 @@ class LoginCubit extends BaseCubit<LoginState, LoginEffect> {
   }
 
   void _init() async {
-    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await AppOrientation.portrait();
   }
 
   void login(LoginRequest param) async {
@@ -62,7 +61,7 @@ class LoginCubit extends BaseCubit<LoginState, LoginEffect> {
 
   @override
   Future<void> close() async {
-    await SystemChrome.setPreferredOrientations([...DeviceOrientation.values]);
+    await AppOrientation.normal();
     return super.close();
   }
 }

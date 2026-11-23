@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../base/base_usecase.dart';
@@ -10,6 +11,7 @@ class CheckAuthStatusUseCase extends BaseUseCase<bool, NoParam> {
 
   CheckAuthStatusUseCase(this._tokenStorage);
 
+  @protected
   @override
   Future<bool> execute(NoParam param) async {
     final result = await _tokenStorage.getAccessToken();

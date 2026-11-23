@@ -45,6 +45,7 @@ class TextFieldWidget extends FormBuilderTextField {
     ),
     super.forceErrorText,
     super.onSubmitted,
+    super.textCapitalization,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(
@@ -90,6 +91,7 @@ class TextFieldWidget extends FormBuilderTextField {
     InputBorder? enabledBorder,
     super.forceErrorText,
     super.onSubmitted,
+    super.textCapitalization,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(
@@ -167,6 +169,7 @@ class TextFieldWidget extends FormBuilderTextField {
     InputBorder? enabledBorder,
     super.forceErrorText,
     super.onSubmitted,
+    super.textCapitalization,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(

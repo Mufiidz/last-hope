@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../di/injection.dart';
 import '../../model/request/login_request.dart';
+import '../../routes/app_router.dart';
 import '../../utils/export_utils.dart';
 import '../../widgets/snackbar_widget.dart';
 import '../../widgets/widgets_export.dart';
@@ -110,6 +112,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: 'Login',
                     onPressed: _onSubmit,
                     width: context.mediaSize.width,
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsGeometry.symmetric(vertical: 8),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Don't have an account? ",
+                        style: context.textTheme.bodyMedium,
+                        children: [
+                          TextSpan(
+                            text: 'Sign up.',
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              color: Colors.lightBlue,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => context.router.pushPath(
+                                AppRoutePath.register,
+                              ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

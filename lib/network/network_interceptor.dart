@@ -10,6 +10,7 @@ class NetworkInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final newException = switch (err.type) {
+      // TODO: Maybe can be showing error bottomsheet
       DioExceptionType.connectionTimeout => () {
         AppLogger.error('connectionError', error: err);
         return ConnectionErrorException(
