@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../base/base_export.dart';
 import '../../../model/error_bottomsheet_data.dart';
 import '../../../model/request/register_request.dart';
+import '../../../network/network_exception.dart';
 import '../../../usecase/register_usecase.dart';
 import '../../../utils/export_utils.dart';
 import '../register_field.dart';
@@ -32,7 +33,6 @@ class RegisterCubit extends BaseCubit<RegisterState, RegisterEffect> {
 
     if (isClosed) return;
 
-    // ERROR: when get ConnectionErrorException its navigate back to login and show bottomsheet, thats should be not like that
     final effect = result.when(
       success: (value) => RegisterEffect.navigateToLogin(),
       error: (error) {

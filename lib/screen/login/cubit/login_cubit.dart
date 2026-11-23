@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../base/base_export.dart';
 import '../../../model/error_bottomsheet_data.dart';
 import '../../../model/request/login_request.dart';
+import '../../../network/network_exception.dart';
 import '../../../usecase/login_usecase.dart';
 import '../../../utils/export_utils.dart';
 import '../login_field.dart';

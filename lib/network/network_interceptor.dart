@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-import '../base/base_exception.dart';
 import '../model/response/error_response.dart';
 import '../utils/export_utils.dart';
+import 'network_exception.dart';
 
 @singleton
 class NetworkInterceptor extends Interceptor {

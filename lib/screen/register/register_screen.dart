@@ -6,7 +6,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../di/injection.dart';
 import '../../model/request/register_request.dart';
-import '../../routes/app_router.dart';
 import '../../utils/export_utils.dart';
 import '../../widgets/snackbar_widget.dart';
 import '../../widgets/widgets_export.dart';
