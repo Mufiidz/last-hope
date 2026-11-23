@@ -38,6 +38,9 @@ class RegisterCubit extends BaseCubit<RegisterState, RegisterEffect> {
       error: (error) {
         AppLogger.error(error.message, tag: 'RegisterCubit', error: error);
         return switch (error) {
+          ForbiddenException() => RegisterEffect.showSnackBar(
+            'Only admin can register an account.',
+          ),
           ConnectionErrorException(:final title, :final message) =>
             RegisterEffect.showBottomSheet(
               ErrorBottomSheetData(

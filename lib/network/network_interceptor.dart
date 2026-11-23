@@ -79,7 +79,7 @@ class NetworkInterceptor extends Interceptor {
           error: errorData,
           stackTrace: err.stackTrace,
         );
-        return NetworkException('Not Allowed');
+        return ForbiddenException('Not Allowed');
       }(),
       404 => NetworkException('Not found'),
       int code when code >= 500 && code < 600 => NetworkException(

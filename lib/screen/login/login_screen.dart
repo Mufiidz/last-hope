@@ -98,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     filled: true,
                     textInputAction: TextInputAction.go,
                     onSubmitted: (value) => _onSubmit(),
+                    enableInteractiveSelection: false,
                     suffixIcon: IconButtonWidget(
                       onPressed: () => setState(() {
                         _hidePassword = !_hidePassword;

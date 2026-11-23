@@ -46,6 +46,7 @@ class TextFieldWidget extends FormBuilderTextField {
     super.forceErrorText,
     super.onSubmitted,
     super.textCapitalization,
+    super.enableInteractiveSelection,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(
@@ -92,6 +93,7 @@ class TextFieldWidget extends FormBuilderTextField {
     super.forceErrorText,
     super.onSubmitted,
     super.textCapitalization,
+    super.enableInteractiveSelection,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(
@@ -170,6 +172,7 @@ class TextFieldWidget extends FormBuilderTextField {
     super.forceErrorText,
     super.onSubmitted,
     super.textCapitalization,
+    super.enableInteractiveSelection,
   }) : super(
          name: formField.key,
          decoration: InputDecoration(

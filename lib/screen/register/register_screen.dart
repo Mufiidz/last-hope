@@ -81,8 +81,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     FormBuilderValidators.username(
                       allowUnderscore: true,
                       allowDots: true,
+                      allowSpecialChar: true,
                     ),
                     FormBuilderValidators.lowercase(),
+                    FormBuilderValidators.match(
+                      RegExp(r'^[a-z0-9]+[a-z0-9_]*(\.[a-z0-9]+[a-z0-9_]*)*$'),
+                    ),
                   ],
                 ),
                 TextFieldWidget.focusBorder(
@@ -94,6 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   obscuringCharacter: '*',
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.visiblePassword,
+                  enableInteractiveSelection: false,
                   suffixIcon: IconButtonWidget(
                     iconData: _hidePassword
                         ? Icons.visibility
@@ -120,6 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: _hideConfirmPassword,
                   obscuringCharacter: '*',
+                  enableInteractiveSelection: false,
                   suffixIcon: IconButtonWidget(
                     iconData: _hideConfirmPassword
                         ? Icons.visibility
@@ -131,15 +137,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onSubmitted: (value) => _onSubmit(),
                   validators: [
                     FormBuilderValidators.required(),
-                    FormBuilderValidators.equal(
-                      (_formKey
+                    (val) {
+                      final passwordValue =
+                          _formKey
                                   .currentState
                                   ?.fields[RegisterField.password.key]
                                   ?.value
-                              as String?)
-                          .orEmpty(),
-                      errorText: 'This field value must be equal to password',
-                    ),
+                              as String?;
+                      if (val != passwordValue) {
+                        return 'This field value must be equal to password';
+                      }
+                      return null;
+                    },
                   ],
                 ),
                 Button.adaptive(
@@ -160,8 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: Colors.lightBlue,
                           ),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () =>
-                                context.router.pushPath(AppRoutePath.login),
+                            ..onTap = () => context.router.pop(),
                         ),
                       ],
                     ),
@@ -197,21 +205,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
           data: data.copyWith(
             primaryButton: data.primaryButton.copyWith(
               onPressed: () {
-                AppLogger.debug('Should be back', tag: 'FormRegis');
                 context.router.pop();
               },
             ),
           ),
         ),
-        NavigateToLogin() => context.router.pushPath(AppRoutePath.login),
+        NavigateToLogin() => () {
+          _formKey.currentState?.reset();
+          context.router.pop();
+        },
       };
 
   void _onSubmit() {
     final formKeyState = _formKey.currentState;
     if (formKeyState == null || !formKeyState.saveAndValidate()) return;
 
-    // final confirmPassword = formKeyState.fields[RegisterField.passwordConfirm.key]?.value as String?;
-    AppLogger.debug(formKeyState.value, tag: 'FormRegis');
     final param = RegisterRequestMapper.fromMap(formKeyState.value);
     AppLogger.debug(param, tag: 'FormRegis');
 
@@ -220,6 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() async {
+    _formKey.currentState?.reset();
     _formKey.currentState?.dispose();
     await _cubit.close();
     super.dispose();

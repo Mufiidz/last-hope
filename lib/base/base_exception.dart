@@ -56,3 +56,7 @@ class SessionExpiredException extends BaseNetworkException {
   @override
   String toString() => 'SessionExpiredException: $message';
 }
+
+class ForbiddenException extends BaseNetworkException {
+  new(super.message);
+}
