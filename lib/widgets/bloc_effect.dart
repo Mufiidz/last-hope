@@ -8,6 +8,7 @@ import '../base/base_effect.dart';
 import '../base/base_state.dart';
 
 typedef SideEffectWidgetListener<E extends BaseEffect> = void Function(
+  // TODO: Disable this context
   BuildContext context,
   E effect,
 );

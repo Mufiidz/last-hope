@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+import '../network/network_exception.dart';
 import '../utils/export_utils.dart';
 import 'base_exception.dart';
 import 'result.dart';

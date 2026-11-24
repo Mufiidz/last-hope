@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../model/error_bottomsheet_data.dart';
@@ -26,10 +25,6 @@ class ErrorBottomSheet extends StatelessWidget {
     bool isDismissible = true,
     bool useRootNavigator = false,
   }) {
-    if (context.router.canPop()) {
-      context.pop();
-    }
-
     showModalBottomSheet(
       context: context,
       useRootNavigator: useRootNavigator,

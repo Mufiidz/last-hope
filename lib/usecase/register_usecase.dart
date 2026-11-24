@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../base/base_usecase.dart';
@@ -11,6 +12,7 @@ class RegisterUseCase extends BaseUseCase<User, RegisterRequest> {
 
   RegisterUseCase(this._authRepository);
   @override
+  @protected
   Future<User> execute(RegisterRequest param) {
     final request = param.copyWith(
       username: param.username.trim().toLowerCase(),

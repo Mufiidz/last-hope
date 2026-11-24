@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../base/base_usecase.dart';
@@ -11,6 +12,7 @@ class LoginUseCase extends BaseUseCase<User, LoginRequest> {
 
   LoginUseCase(this._authRepository);
 
+  @protected
   @override
   Future<User> execute(LoginRequest param) {
     final request = param.copyWith(

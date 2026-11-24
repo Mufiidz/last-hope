@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:material_ui/material_ui.dart';
 
-import '../base/base_exception.dart';
 import '../data/network/endpoint.dart';
 import '../di/injection.dart';
 import '../model/error_bottomsheet_data.dart';
 import '../routes/app_router.dart';
 import '../routes/app_router.gr.dart';
 import '../utils/export_utils.dart';
+import 'network_exception.dart';
 import 'token/token_storage.dart';
 
 @singleton
