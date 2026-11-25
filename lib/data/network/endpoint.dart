@@ -1,4 +1,4 @@
-import '../../network/env.dart';
+import '../../env.dart';
 
 class Endpoint {
   /// Auth API Endpoint

@@ -22,7 +22,13 @@ class StoryRepositoryImpl implements StoryRepository {
   @override
   Future<List<Story>> getStories({int page = 1}) async {
     try {
-      final response = await _apiClient.getItems(page: page);
+      final response = await _apiClient.getItems(
+        page: page,
+        expand: 'attachments_via_storyId',
+        field: '*,expand.attachments_via_storyId.content,expand.attachments_via_storyId.description,expand.attachments_via_storyId.id',
+        filter: 'isPublish = true',
+      );
+      
       final stories = response.items.map((e) => e.toStory()).toList();
       return stories;
     } catch (e) {

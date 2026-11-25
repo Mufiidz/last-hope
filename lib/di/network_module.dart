@@ -9,7 +9,7 @@ import '../data/network/auth_apiclient.dart';
 import '../data/network/batch_apiclient.dart';
 import '../data/network/endpoint.dart';
 import '../data/network/story_apiclient.dart';
-import '../network/env.dart';
+import '../env.dart';
 import '../network/network_interceptor.dart';
 import '../network/session_interceptor.dart';
 
