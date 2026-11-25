@@ -1,4 +1,5 @@
 {
-    "ENV" : "example",
-    "BASE_URL": ""
+    "ENV": "example",
+    "BASE_URL": "",
+    "STORAGE_URL": ""
 }
