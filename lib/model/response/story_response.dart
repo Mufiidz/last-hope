@@ -1,7 +1,9 @@
 import 'package:dart_mappable/dart_mappable.dart';
 
 import '../../utils/default_value.dart';
+import '../attachment.dart';
 import '../base_data.dart';
+import '../story.dart';
 
 part 'story_response.mapper.dart';
 
@@ -11,7 +13,7 @@ class StoryResponse extends BaseData with StoryResponseMappable {
   final String collectionName;
   final String content;
   final String creatorId;
-  final _Expand? _expand;
+  final StoryExpandDto? expand;
   final bool isPublish;
 
   StoryResponse({
@@ -20,29 +22,45 @@ class StoryResponse extends BaseData with StoryResponseMappable {
     this.collectionName = kEmptyString,
     this.content = kEmptyString,
     this.creatorId = kEmptyString,
-    this._expand,
+    this.expand,
     this.isPublish = false,
     super.updated,
     super.created,
   });
-  // put attachment response here
+
+  Story toStory() => Story(
+    content: content,
+    id: id,
+    creatorId: creatorId,
+    attachments:
+        expand?.attachmentsViaStoryId
+            .map(
+              (e) => Attachment(
+                id: e.id,
+                content: e.content,
+                description: e.description,
+              ),
+            )
+            .toList() ??
+        emptyList(),
+  );
 }
 
 @MappableClass()
-class _Expand with _ExpandMappable {
+class StoryExpandDto with StoryExpandDtoMappable {
   @MappableField(key: 'attachments_via_story_id')
-  final List<_AttachmentsViaStoryId> attachmentsViaStoryId;
+  final List<AttachmentsViaStoryId> attachmentsViaStoryId;
 
-  _Expand({this.attachmentsViaStoryId = const []});
+  StoryExpandDto({this.attachmentsViaStoryId = const []});
 }
 
 @MappableClass()
-class _AttachmentsViaStoryId with _AttachmentsViaStoryIdMappable {
+class AttachmentsViaStoryId with AttachmentsViaStoryIdMappable {
   final String id;
   final String content;
   final String description;
 
-  _AttachmentsViaStoryId({
+  AttachmentsViaStoryId({
     this.id = kEmptyString,
     this.content = kEmptyString,
     this.description = kEmptyString,
@@ -51,4 +69,3 @@ class _AttachmentsViaStoryId with _AttachmentsViaStoryIdMappable {
 
 /// Mapper StoryResponse -> Story.
 /// Harus di file ini supaya bisa mengakses class private di atas.
-
