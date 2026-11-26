@@ -4,6 +4,7 @@ import '../base/base_exception.dart';
 import '../data/network/story_apiclient.dart';
 import '../mapper/story_mapper.dart';
 import '../model/request/story_request.dart';
+import '../model/response/story_response.dart';
 import '../model/story.dart';
 
 abstract class StoryRepository {
@@ -53,7 +54,7 @@ class StoryRepositoryImpl implements StoryRepository {
   @override
   Future<Story> updateStory(StoryRequest body) async {
     final id = body.id;
-    if (id == null || id.isEmpty) throw ErrorException('Id cant be empty');
+    if (id.isEmpty) throw ErrorException('Id cant be empty');
     try {
       final response = await _apiClient.update(id, body);
       final story = response.toStory();
