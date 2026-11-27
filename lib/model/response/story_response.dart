@@ -1,9 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
 
 import '../../utils/default_value.dart';
-import '../attachment.dart';
 import '../base_data.dart';
-import '../story.dart';
 
 part 'story_response.mapper.dart';
 
@@ -27,31 +25,19 @@ class StoryResponse extends BaseData with StoryResponseMappable {
     super.updated,
     super.created,
   });
-
-  Story toStory() => Story(
-    content: content,
-    id: id,
-    creatorId: creatorId,
-    attachments:
-        expand?.attachmentsViaStoryId
-            .map(
-              (e) => Attachment(
-                id: e.id,
-                content: e.content,
-                description: e.description,
-              ),
-            )
-            .toList() ??
-        emptyList(),
-  );
 }
 
 @MappableClass()
 class StoryExpandDto with StoryExpandDtoMappable {
-  @MappableField(key: 'attachments_via_story_id')
+  @MappableField(key: 'attachments_via_storyId')
   final List<AttachmentsViaStoryId> attachmentsViaStoryId;
+  @MappableField(key: 'creatorId')
+  final CreatorExpandDto creator;
 
-  StoryExpandDto({this.attachmentsViaStoryId = const []});
+  StoryExpandDto({
+    this.attachmentsViaStoryId = const [],
+    this.creator = const CreatorExpandDto(),
+  });
 }
 
 @MappableClass()
@@ -67,5 +53,10 @@ class AttachmentsViaStoryId with AttachmentsViaStoryIdMappable {
   });
 }
 
-/// Mapper StoryResponse -> Story.
-/// Harus di file ini supaya bisa mengakses class private di atas.
+@MappableClass()
+class CreatorExpandDto with CreatorExpandDtoMappable {
+  final String username;
+  final String name;
+
+  const new({this.username = kEmptyString, this.name = kEmptyString});
+}

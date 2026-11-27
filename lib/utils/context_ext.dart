@@ -53,4 +53,5 @@ extension ContextExt on BuildContext {
   bool get isDark => brightness == Brightness.dark;
   void showSnackBar(SnackBar snackBar) =>
       ScaffoldMessenger.of(this).showSnackBar(snackBar);
+  EdgeInsets get mediaQueryPadding => MediaQuery.paddingOf(this);
 }
