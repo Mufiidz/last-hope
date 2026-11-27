@@ -7,6 +7,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../di/injection.dart';
 import '../../model/request/login_request.dart';
 import '../../routes/app_router.dart';
+import '../../routes/app_router.gr.dart';
 import '../../utils/export_utils.dart';
 import '../../widgets/snackbar_widget.dart';
 import '../../widgets/widgets_export.dart';
@@ -54,8 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 state: SnackBarState.error,
               ),
             ),
-            // TODO: Handle navigate to Home Route
-            NavigateToHome() => (),
+            NavigateToHome() => context.router.replaceAll([const HomeRoute()]),
             ShowErrorBottomSheet(:final data) => context.showErrorBottomSheet(
               data: data.copyWith(
                 primaryButton: data.primaryButton.copyWith(

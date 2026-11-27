@@ -3,6 +3,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'di/injection.dart';
+import 'mappers.init.dart';
 import 'routes/app_router.dart';
 import 'utils/context_ext.dart';
 
@@ -14,6 +15,7 @@ void main() async {
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupDI();
+  initializeMappers();
 }
 
 class MyApp extends StatelessWidget {

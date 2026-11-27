@@ -25,7 +25,7 @@ class SplashScreenCubit
       error: (error) => false,
     );
     final route = isLoggedIn
-        ? const LoginRoute().routeName
+        ? const HomeRoute().routeName
         : const LoginRoute().routeName;
 
     AppLogger.debug(route, tag: 'Route');
