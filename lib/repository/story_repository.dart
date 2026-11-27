@@ -4,8 +4,8 @@ import '../base/base_exception.dart';
 import '../data/network/story_apiclient.dart';
 import '../mapper/story_mapper.dart';
 import '../model/request/story_request.dart';
-import '../model/response/story_response.dart';
 import '../model/story.dart';
+import '../network/api_query_builder.dart';
 
 abstract class StoryRepository {
   Future<List<Story>> getStories({int page});
@@ -22,19 +22,26 @@ class StoryRepositoryImpl implements StoryRepository {
 
   @override
   Future<List<Story>> getStories({int page = 1}) async {
-    try {
-      final response = await _apiClient.getItems(
-        page: page,
-        expand: 'attachments_via_storyId',
-        field: '*,expand.attachments_via_storyId.content,expand.attachments_via_storyId.description,expand.attachments_via_storyId.id',
-        filter: 'isPublish = true',
-      );
-      
-      final stories = response.items.map((e) => e.toStory()).toList();
-      return stories;
-    } catch (e) {
-      rethrow;
-    }
+    final query = ApiQueryBuilder()
+        .expand(['attachments_via_storyId', 'creatorId'])
+        .select([
+          '*',
+          'expand.attachments_via_storyId.content',
+          'expand.attachments_via_storyId.description',
+          'expand.attachments_via_storyId.id',
+          'expand.creatorId.name',
+          'expand.creatorId.username',
+        ]);
+    // .filterBy('isPublish = true');
+    final response = await _apiClient.getItems(
+      page: page,
+      expand: query.expandParam,
+      field: query.fieldParam,
+      filter: query.filterParam,
+    );
+
+    final stories = response.items.map((e) => e.toStory()).toList();
+    return stories;
   }
 
   @override
